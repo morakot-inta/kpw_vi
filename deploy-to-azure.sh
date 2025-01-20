@@ -17,9 +17,11 @@ az webapp create --name $APP_NAME --resource-group $RESOURCE_GROUP --plan $APP_S
 
 # Configure web app settings
 az webapp config set --name $APP_NAME --resource-group $RESOURCE_GROUP --startup-file "npm run start"
+az webapp config appsettings set --name $APP_NAME --resource-group $RESOURCE_GROUP --settings PORT=3000
 
 # Deploy the app
 az webapp deployment source config-local-git --name $APP_NAME --resource-group $RESOURCE_GROUP
+az webapp deploy -g $RESOURCE_GROUP -n $APP_NAME  --src-path app.zip
 
 # Get the deployment URL
 DEPLOYMENT_URL=$(az webapp deployment source config-local-git --name $APP_NAME --resource-group $RESOURCE_GROUP --query url --output tsv)
